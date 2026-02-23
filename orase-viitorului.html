@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orașele Viitorului – FID</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root { --orange:#EB6730; --teal-dark:#1F6E8D; --teal-light:#37d3f1; --cream:#faf6e8; --cream-dark:#f0ead8; --orange-light:#F0BA9B; --text-dark:#1F6E8D; --text-mid:#4a5a6a; --text-light:#7a8fa0; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden;}
+  .scroll-line{position:fixed;top:0;left:0;height:3px;background:var(--orange);z-index:200;transition:width 0.1s;width:0%;}
+  .lang-bar{position:fixed;top:0;right:0;z-index:100;padding:4px 32px;display:flex;gap:4px;}
+  .lang-btn{background:none;border:none;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;cursor:pointer;padding:4px 8px;color:var(--text-light);transition:color 0.2s;}
+  .lang-btn.active{color:var(--orange);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:99;padding:20px 80px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,246,232,0.95);backdrop-filter:blur(12px);transition:box-shadow 0.3s;}
+  nav.scrolled{box-shadow:0 2px 32px rgba(31,110,141,0.08);}
+  .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .nav-logo img{height:36px;}
+  .nav-logo span{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-dark);}
+  .nav-links{display:flex;gap:32px;list-style:none;}
+  .nav-links a{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--orange);}
+  .article-hero{padding:120px 80px 0;max-width:860px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;transition:color 0.2s;margin-bottom:32px;}
+  .back-link:hover{color:var(--orange);}
+  .back-link svg{transition:transform 0.2s;}
+  .back-link:hover svg{transform:translateX(-4px);}
+  .article-category{display:inline-block;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;background:var(--orange);color:white;padding:4px 12px;margin-bottom:20px;}
+  .article-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.15;color:var(--text-dark);margin-bottom:16px;}
+  .article-title span{color:var(--orange);}
+  .article-meta{font-size:13px;color:var(--text-light);margin-bottom:40px;letter-spacing:0.06em;}
+  .article-img{width:100%;height:400px;object-fit:cover;margin-bottom:48px;}
+  .article-body{max-width:860px;margin:0 auto;padding:0 80px 80px;}
+  .article-body p{font-size:16px;line-height:1.8;color:var(--text-mid);margin-bottom:24px;}
+  .article-body h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--text-dark);margin:40px 0 16px;}
+  .article-body h2 span{color:var(--orange);}
+  .project-link-block{background:white;border-left:4px solid var(--orange);padding:20px 24px;margin:32px 0;}
+  .project-link-block .label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
+  .project-link-block .title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:6px;}
+  .project-link-block p{font-size:14px;color:var(--text-mid);margin:0;line-height:1.6;}
+  .article-cta{background:var(--teal-dark);padding:40px;margin:48px 0 0;text-align:center;}
+  .article-cta p{color:rgba(255,255,255,0.8);font-size:15px;margin-bottom:20px;line-height:1.6;}
+  .article-cta a{display:inline-block;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:background 0.2s;}
+  .article-cta a:hover{background:#d45a25;}
+  footer{background:#0F3D52;padding:32px 80px;display:flex;align-items:center;justify-content:space-between;}
+  .footer-left{font-size:13px;color:rgba(255,255,255,0.4);}
+  .footer-left strong{color:rgba(255,255,255,0.7);}
+  .footer-right{display:flex;gap:24px;flex-wrap:wrap;justify-content:flex-end;}
+  .footer-right a{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;}
+  .footer-right a:hover{color:var(--orange);}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:transparent;border:none;padding:4px;z-index:101;}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--teal-dark);transition:all 0.3s;transform-origin:center;}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(250,246,232,0.98);backdrop-filter:blur(12px);z-index:98;flex-direction:column;align-items:center;justify-content:center;gap:32px;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;}
+  @media(max-width:900px){nav{padding:16px 24px;}.hamburger{display:flex;}.nav-links{display:none;}.article-hero{padding:100px 24px 0;}.article-body{padding:0 24px 60px;}.article-img{height:220px;}footer{flex-direction:column;gap:16px;text-align:center;padding:24px;}}
+</style>
+</head>
+<body>
+<div class="scroll-line" id="scrollLine"></div>
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ro')">RO</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+<nav id="mainNav">
+  <a class="nav-logo" href="index.html">
+    <img src="FID logo.png" alt="FID Logo">
+    <span data-ro="Inovare Digitală" data-en="Digital Innovation">Inovare Digitală</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about" data-ro="Despre noi" data-en="About">Despre noi</a></li>
+    <li><a href="index.html#projects" data-ro="Proiecte" data-en="Projects">Proiecte</a></li>
+    <li><a href="index.html#financing" data-ro="Finanțări" data-en="Funding">Finanțări</a></li>
+    <li><a href="blog.html" data-ro="Noutăți" data-en="News" style="color:var(--orange);">Noutăți</a></li>
+    <li><a href="index.html#contact" data-ro="Contact" data-en="Contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Meniu" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="closeMobile()">Despre noi</a>
+  <a href="index.html#projects" onclick="closeMobile()">Proiecte</a>
+  <a href="blog.html" onclick="closeMobile()">Noutăți</a>
+  <a href="index.html#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<div class="article-hero">
+  <a class="back-link" href="blog.html">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <span data-ro="Înapoi la blog" data-en="Back to blog">Înapoi la blog</span>
+  </a>
+  <div class="article-category" data-ro="Tehnologie Urbană" data-en="Urban Technology">Tehnologie Urbană</div>
+  <h1 class="article-title" data-ro="Viitorul este aici: <span>orașe inteligente și inovare digitală</span>" data-en="The future is here: <span>smart cities and digital innovation</span>">Viitorul este aici: <span>orașe inteligente și inovare digitală</span></h1>
+  <div class="article-meta" data-ro="23 februarie 2026 · FID – Fundația pentru Inovare Digitală" data-en="February 23, 2026 · FID – Foundation for Digital Innovation">23 februarie 2026 · FID – Fundația pentru Inovare Digitală</div>
+</div>
+
+<div class="article-body">
+  <img class="article-img" src="Urban.jpg" alt="Orașe inteligente">
+
+  <p data-ro="Imaginează-ți un oraș în care tehnologia conectează totul — de la semafoare care se adaptează în timp real la trafic, la clădiri care își reglează singure consumul de energie, la servicii publice accesibile dintr-un singur click. Nu este science fiction. Este direcția în care se îndreaptă orașele lumii, iar România nu face excepție." data-en="Imagine a city where technology connects everything — from traffic lights that adapt in real time to traffic, to buildings that regulate their own energy consumption, to public services accessible with a single click. This is not science fiction. It is the direction the world's cities are heading, and Romania is no exception.">Imaginează-ți un oraș în care tehnologia conectează totul — de la semafoare care se adaptează în timp real la trafic, la clădiri care își reglează singure consumul de energie, la servicii publice accesibile dintr-un singur click. Nu este science fiction. Este direcția în care se îndreaptă orașele lumii, iar România nu face excepție.</p>
+
+  <h2 data-ro="Transport inteligent și mobilitate urbană" data-en="Smart transport and urban mobility">Transport inteligent și <span>mobilitate urbană</span></h2>
+
+  <p data-ro="Transportul este coloana vertebrală a oricărui oraș. În orașele inteligente, autobuzele știu când să vină, parcările se rezervă din telefon, iar bicicliștii și pietonii au infrastructură dedicată și conectată. Datele colectate în timp real permit optimizarea rutelor și reducerea emisiilor de CO2 — un pas esențial spre sustenabilitate urbană." data-en="Transport is the backbone of any city. In smart cities, buses know when to come, parking spaces are reserved by phone, and cyclists and pedestrians have dedicated connected infrastructure. Real-time data collection allows route optimization and CO2 emission reduction — an essential step towards urban sustainability.">Transportul este coloana vertebrală a oricărui oraș. În orașele inteligente, autobuzele știu când să vină, parcările se rezervă din telefon, iar bicicliștii și pietonii au infrastructură dedicată și conectată. Datele colectate în timp real permit optimizarea rutelor și reducerea emisiilor de CO2 — un pas esențial spre sustenabilitate urbană.</p>
+
+  <h2 data-ro="Servicii publice digitale pentru toți cetățenii" data-en="Digital public services for all citizens">Servicii publice digitale <span>pentru toți cetățenii</span></h2>
+
+  <p data-ro="Un oraș cu adevărat inteligent pune cetățeanul în centru. Plata taxelor online, programările la medic prin aplicație, raportarea problemelor din cartier printr-un simplu mesaj — toate acestea reduc birocrația și apropie administrația de oameni. Dar pentru ca aceste servicii să funcționeze pentru toată lumea, cetățenii au nevoie de educație digitală și instrumente accesibile." data-en="A truly smart city puts the citizen at the center. Paying taxes online, booking doctor appointments through an app, reporting neighborhood problems with a simple message — all of this reduces bureaucracy and brings administration closer to people. But for these services to work for everyone, citizens need digital education and accessible tools.">Un oraș cu adevărat inteligent pune cetățeanul în centru. Plata taxelor online, programările la medic prin aplicație, raportarea problemelor din cartier printr-un simplu mesaj — toate acestea reduc birocrația și apropie administrația de oameni. Dar pentru ca aceste servicii să funcționeze pentru toată lumea, cetățenii au nevoie de educație digitală și instrumente accesibile.</p>
+
+  <div class="project-link-block">
+    <div class="label" data-ro="Proiecte FID" data-en="FID Projects">Proiecte FID</div>
+    <div class="title" data-ro="Agent AI pentru cetățeni · Programe de formare digitală" data-en="AI agent for citizens · Digital training programs">Agent AI pentru cetățeni · Programe de formare digitală</div>
+    <p data-ro="FID dezvoltă un asistent AI care ghidează cetățenii prin serviciile publice digitale și programe de formare care îi echipează cu competențele necesare pentru a naviga orașul inteligent." data-en="FID is developing an AI assistant that guides citizens through digital public services and training programs that equip them with the skills needed to navigate the smart city.">FID dezvoltă un asistent AI care ghidează cetățenii prin serviciile publice digitale și programe de formare care îi echipează cu competențele necesare pentru a naviga orașul inteligent.</p>
+  </div>
+
+  <h2 data-ro="Clădiri eficiente și mediu urban sustenabil" data-en="Efficient buildings and sustainable urban environment">Clădiri eficiente și <span>mediu urban sustenabil</span></h2>
+
+  <p data-ro="Clădirile inteligente consumă cu până la 40% mai puțină energie față de construcțiile tradiționale. Senzorii monitorizează temperatura, iluminatul și consumul de apă, ajustând automat parametrii pentru eficiență maximă. La nivel de cartier și oraș, aceste economii se traduc în aer mai curat, costuri mai mici și o calitate a vieții mai bună pentru toți locuitorii." data-en="Smart buildings consume up to 40% less energy than traditional constructions. Sensors monitor temperature, lighting and water consumption, automatically adjusting parameters for maximum efficiency. At neighborhood and city level, these savings translate into cleaner air, lower costs and better quality of life for all residents.">Clădirile inteligente consumă cu până la 40% mai puțină energie față de construcțiile tradiționale. Senzorii monitorizează temperatura, iluminatul și consumul de apă, ajustând automat parametrii pentru eficiență maximă. La nivel de cartier și oraș, aceste economii se traduc în aer mai curat, costuri mai mici și o calitate a vieții mai bună pentru toți locuitorii.</p>
+
+  <div class="project-link-block">
+    <div class="label" data-ro="Proiect FID" data-en="FID Project">Proiect FID</div>
+    <div class="title" data-ro="AI & Îngrijire la domiciliu · Platformă digitală pentru seniori" data-en="AI & Home care · Digital platform for seniors">AI & Îngrijire la domiciliu · Platformă digitală pentru seniori</div>
+    <p data-ro="Tehnologia inteligentă nu se oprește la clădiri — ea intră și în casele noastre. FID lucrează la soluții AI care monitorizează bunăstarea persoanelor vârstnice și le oferă autonomie în propriul cămin, parte integrantă a orașului inteligent." data-en="Smart technology doesn't stop at buildings — it enters our homes too. FID works on AI solutions that monitor the wellbeing of elderly people and give them autonomy in their own home, an integral part of the smart city.">Tehnologia inteligentă nu se oprește la clădiri — ea intră și în casele noastre. FID lucrează la soluții AI care monitorizează bunăstarea persoanelor vârstnice și le oferă autonomie în propriul cămin, parte integrantă a orașului inteligent.</p>
+  </div>
+
+  <h2 data-ro="Ce aspect al orașului inteligent te entuziasmează?" data-en="What aspect of the smart city excites you?">Ce aspect al orașului inteligent <span>te entuziasmează?</span></h2>
+
+  <p data-ro="Transportul autonom? Clădirile verzi? Serviciile publice digitale? Sau poate rețelele de energie regenerabilă? Fiecare dintre noi are o viziune despre cum ar trebui să arate orașul viitorului. Spune-ne în comentarii ce îți dorești cel mai mult de la un smart city!" data-en="Autonomous transport? Green buildings? Digital public services? Or perhaps renewable energy networks? Each of us has a vision of what the city of the future should look like. Tell us in the comments what you want most from a smart city!">Transportul autonom? Clădirile verzi? Serviciile publice digitale? Sau poate rețelele de energie regenerabilă? Fiecare dintre noi are o viziune despre cum ar trebui să arate orașul viitorului. Spune-ne în comentarii ce îți dorești cel mai mult de la un smart city!</p>
+
+  <div class="article-cta">
+    <p data-ro="Alătură-te discuției pe Facebook și spune-ne viziunea ta despre orașul de mâine!" data-en="Join the discussion on Facebook and tell us your vision of tomorrow's city!">Alătură-te discuției pe Facebook și spune-ne viziunea ta despre orașul de mâine!</p>
+    <a href="https://www.facebook.com/FIDromania/posts/pfbid0jfssCUzqyfzfTGoyJYtpVJgyYz3mkmKWyjoPUn1DugjDvcXtTLEEAx95csq7Lj2kl" target="_blank" rel="noopener" data-ro="Comentează pe Facebook →" data-en="Comment on Facebook →">Comentează pe Facebook →</a>
+  </div>
+  <div style="text-align:center;margin-top:32px;">
+    <a href="index.html#projects" style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;" data-ro="← Vezi proiectele FID" data-en="← See FID projects">← Vezi proiectele FID</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <strong>FID – Fundația pentru Inovare Digitală</strong><br>
+    <span data-ro="© 2023–2026 · Toate drepturile rezervate · București, România" data-en="© 2023–2026 · All rights reserved · Bucharest, Romania">© 2023–2026 · Toate drepturile rezervate · București, România</span>
+  </div>
+  <div class="footer-right">
+    <a href="index.html#about" data-ro="Despre noi" data-en="About">Despre noi</a>
+    <a href="index.html#projects" data-ro="Proiecte" data-en="Projects">Proiecte</a>
+    <a href="blog.html" data-ro="Noutăți" data-en="News">Noutăți</a>
+    <a href="index.html#contact" data-ro="Contact" data-en="Contact">Contact</a>
+    <a href="https://www.facebook.com/FIDromania" target="_blank">Facebook</a>
+    <a href="politica-confidentialitate.html" data-ro="Politică de Confidențialitate" data-en="Privacy Policy">Politică de Confidențialitate</a>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{const t=document.body.scrollHeight-window.innerHeight;document.getElementById('scrollLine').style.width=(window.scrollY/t*100)+'%';document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50);});
+  let currentLang='ro';
+  function setLang(lang){currentLang=lang;document.querySelectorAll('[data-ro]').forEach(el=>{el.innerHTML=lang==='ro'?el.getAttribute('data-ro'):el.getAttribute('data-en');});document.querySelectorAll('.lang-btn').forEach(btn=>{btn.classList.toggle('active',btn.textContent===lang.toUpperCase());});}
+  function toggleMobile(){const b=document.getElementById('hamburgerBtn'),m=document.getElementById('mobileMenu');b.classList.toggle('open');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
+  function closeMobile(){document.getElementById('hamburgerBtn').classList.remove('open');document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';}
+</script>
+</body>
+</html>
