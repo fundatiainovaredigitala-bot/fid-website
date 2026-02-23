@@ -25,7 +25,7 @@
   .scroll-line { position: fixed; top: 0; left: 0; height: 3px; background: var(--orange); z-index: 200; transition: width 0.1s; width: 0%; }
 
   .lang-bar { position: fixed; top: 0; right: 0; z-index: 100; padding: 4px 32px; display: flex; gap: 4px; align-items: center; }
-  .lang-btn { font-family: 'Syne', sans-serif; font-size: 7px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 5px; border: none; border-bottom: 2px solid transparent; background: transparent; color: var(--teal-dark); opacity: 0.45; cursor: pointer; transition: all 0.2s; }
+  .lang-btn { font-family: 'Syne', sans-serif; font-size: 7px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 5px; border: none; border-bottom: 2px solid transparent; background: transparent; color: var(--teal-dark); opacity: 0.45; cursor: pointer; transition: all 0.2s; text-shadow: none; }
   .lang-btn.active { color: #EB6730; opacity: 1; border-bottom: 2px solid #EB6730; text-shadow: -0.5px -0.5px 0 var(--teal-light), 0.5px -0.5px 0 var(--teal-light), -0.5px 0.5px 0 var(--teal-light), 0.5px 0.5px 0 var(--teal-light); }
   .lang-btn:hover { opacity: 1; color: #EB6730; border-bottom: 2px solid #EB6730; }
 
@@ -88,10 +88,15 @@
     nav { padding: 16px 24px; }
     .hamburger { display: flex; }
     .nav-links { display: none; }
+    .lang-bar { padding: 14px 20px; }
     .article-hero { padding: 100px 24px 0; }
     .article-body { padding: 0 24px 60px; }
     .article-img { height: 220px; }
     footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px; }
+  }
+  @media (max-width: 480px) {
+    .lang-bar { padding: 14px 12px; font-size: 6px; }
+    .lang-btn { font-size: 6px; padding: 1px 4px; }
   }
 </style>
 </head>
