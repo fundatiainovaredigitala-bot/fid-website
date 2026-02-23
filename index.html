@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FID – Fundația pentru Inovare Digitală</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #EB6730;
+    --teal-dark: #1F6E8D;
+    --teal-light: #37d3f1;
+    --cream: #faf6e8;
+    --cream-dark: #f0ead8;
+    --orange-light: #F0BA9B;
+    --text-dark: #1F6E8D;
+    --text-mid: #4a5a6a;
+    --text-light: #7a8fa0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── CIRCUIT BACKGROUND SVG ── */
+  .circuit-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.06;
+  }
+
+  /* ── LANG TOGGLE ── */
+  .lang-bar {
+    position: fixed;
+    top: 0; right: 0;
+    z-index: 100;
+    padding: 4px 32px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .lang-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 5px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--teal-dark);
+    opacity: 0.45;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-shadow: none;
+  }
+  .lang-btn.active {
+    color: #EB6730;
+    opacity: 1;
+    border-bottom: 2px solid #EB6730;
+    text-shadow: -0.5px -0.5px 0 var(--teal-light),
+                  0.5px -0.5px 0 var(--teal-light),
+                 -0.5px  0.5px 0 var(--teal-light),
+                  0.5px  0.5px 0 var(--teal-light);
+  }
+  .lang-btn:hover {
+    opacity: 1;
+    color: #EB6730;
+    border-bottom: 2px solid #EB6730;
+  }
+  @media (max-width: 900px) {
+    .lang-bar { padding: 14px 20px; }
+  }
+  @media (max-width: 480px) {
+    .lang-bar { padding: 14px 12px; font-size: 6px; }
+    .lang-btn { font-size: 6px; padding: 1px 4px; }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(30, 106, 138, 0.12);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.07); }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo img {
+    height: 36px;
+    width: auto;
+  }
+  .nav-logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.0;
+  }
+  .nav-logo-text span:first-child {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    text-shadow: -0.5px -0.5px 0 #37d3f1,
+                  0.5px -0.5px 0 #37d3f1,
+                 -0.5px  0.5px 0 #37d3f1,
+                  0.5px  0.5px 0 #37d3f1;
+  }
+  .nav-logo-text span:last-child {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--orange);
+    letter-spacing: 0.03em;
+    text-shadow: -0.5px -0.5px 0 #37d3f1,
+                  0.5px -0.5px 0 #37d3f1,
+                 -0.5px  0.5px 0 #37d3f1,
+                  0.5px  0.5px 0 #37d3f1;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links li:last-child {
+    margin-left: auto;
+  }
+  .nav-links a {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--teal-dark);
+    transition: color 0.2s;
+    position: relative;
+    white-space: nowrap;
+    text-shadow: 0 0 0 var(--teal-light), 
+                 -0.5px -0.5px 0 var(--teal-light),
+                 0.5px -0.5px 0 var(--teal-light),
+                 -0.5px 0.5px 0 var(--teal-light),
+                 0.5px 0.5px 0 var(--teal-light);
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--orange);
+    transition: width 0.25s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(250,246,232,0.95) 0%, rgba(31,110,141,0.25) 100%), url('hero-bg..jpg') center / cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
+    padding: 140px 80px 80px 64px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    margin-bottom: 28px;
+    text-shadow: -0.5px -0.5px 0 #EB6730,
+                  0.5px -0.5px 0 #EB6730,
+                 -0.5px  0.5px 0 #EB6730,
+                  0.5px  0.5px 0 #EB6730;
+  }
+  .hero-tag::after {
+    content: '';
+    width: 32px; height: 2px;
+    background: var(--teal-dark);
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 800;
+    line-height: 1.0;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+  }
+  .hero-title span { 
+    color: var(--orange);
+    text-shadow: 0 0 0 var(--teal-light), 
+                 -1px -1px 0 var(--teal-light),
+                 1px -1px 0 var(--teal-light),
+                 -1px 1px 0 var(--teal-light),
+                 1px 1px 0 var(--teal-light);
+  }
+
+  .hero-tagline {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 600;
+    color: var(--teal-dark);
+    margin-bottom: 28px;
+    font-style: italic;
+    text-shadow: -0.5px -0.5px 0 #EB6730,
+                  0.5px -0.5px 0 #EB6730,
+                 -0.5px  0.5px 0 #EB6730,
+                  0.5px  0.5px 0 #EB6730;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-mid);
+    max-width: 480px;
+    margin-bottom: 48px;
+    margin-left: auto;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .btn-primary {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-primary:hover {
+    background: var(--teal-dark);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 15px 36px;
+    background: transparent;
+    color: var(--teal-dark);
+    border: 2px solid var(--teal-dark);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-secondary:hover {
+    background: var(--teal-dark);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .btn-230 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 15px 28px;
+    background: transparent;
+    color: var(--orange);
+    border: 2px solid var(--orange);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-230:hover {
+    background: var(--orange);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .hero-230-pdf {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    color: var(--text-mid);
+    font-size: 12px;
+    justify-content: flex-end;
+  }
+  .hero-230-pdf a {
+    color: #1F6E8D;
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    text-shadow: -0.5px -0.5px 0 #37d3f1, 0.5px -0.5px 0 #37d3f1,
+                 -0.5px  0.5px 0 #37d3f1, 0.5px  0.5px 0 #37d3f1;
+  }
+  .hero-230-pdf a:hover { color: var(--orange); }
+
+  .hero-230-steps {
+    margin-top: 20px;
+    padding: 14px 18px;
+    border: 1.5px dashed rgba(235,103,48,0.45);
+    background: rgba(235,103,48,0.04);
+    max-width: 400px;
+    margin-left: auto;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .hero-230-steps-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 10px;
+    text-align: right;
+  }
+  .hero-230-step {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 5px 0;
+  }
+  .hero-230-step + .hero-230-step {
+    border-top: 1px solid rgba(235,103,48,0.1);
+  }
+  .hero-230-step-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    order: 2;
+    box-shadow: 0 0 0 2px #37d3f1;
+  }
+  .hero-230-step-text {
+    font-size: 12px;
+    color: #1F6E8D;
+    line-height: 1.4;
+    text-align: right;
+    order: 1;
+    text-shadow: -0.5px -0.5px 0 #37d3f1, 0.5px -0.5px 0 #37d3f1,
+                 -0.5px  0.5px 0 #37d3f1, 0.5px  0.5px 0 #37d3f1;
+  }
+  .hero-230-deadline {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(235,103,48,0.15);
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--teal-dark);
+    text-align: right;
+    text-shadow: -0.5px -0.5px 0 #37d3f1, 0.5px -0.5px 0 #37d3f1,
+                 -0.5px  0.5px 0 #37d3f1, 0.5px  0.5px 0 #37d3f1;
+  }
+
+  .hero-right {
+    position: relative;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-circuit-art {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-circuit-art svg {
+    width: 90%;
+    height: 90%;
+    opacity: 0.18;
+  }
+
+  .hero-logo-big {
+    position: relative;
+    z-index: 2;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px rgba(30,106,138,0.15), 0 0 0 40px rgba(30,106,138,0.04), 0 0 0 80px rgba(30,106,138,0.02);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .hero-logo-big img { width: 150px; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(30,106,138,0.15), 0 0 0 40px rgba(30,106,138,0.04), 0 0 0 80px rgba(30,106,138,0.02); }
+    50% { box-shadow: 0 0 0 1px rgba(30,106,138,0.2), 0 0 0 50px rgba(30,106,138,0.06), 0 0 0 100px rgba(30,106,138,0.03); }
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    position: relative;
+    z-index: 1;
+    background: var(--teal-dark);
+    padding: 32px 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 0 24px;
+    border-right: 1px solid rgba(255,255,255,0.15);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--orange);
+    display: block;
+  }
+  .stat-label {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTIONS SHARED ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 80px;
+  }
+
+  .section-header {
+    margin-bottom: 64px;
+  }
+  .section-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 2px;
+    background: var(--orange);
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--text-dark);
+  }
+  .section-title span { color: var(--teal-dark); }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--cream);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 20px;
+  }
+
+  .domains-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .domain-card {
+    background: white;
+    border: 1px solid rgba(30,106,138,0.12);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .domain-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--orange);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+    transform-origin: bottom;
+  }
+  .domain-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .domain-card:hover::before { transform: scaleY(1); }
+
+  .domain-icon {
+    margin-bottom: 12px;
+    display: block;
+    line-height: 0;
+  }
+  .domain-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 0 var(--teal-light), 
+                 -0.5px -0.5px 0 var(--teal-light),
+                 0.5px -0.5px 0 var(--teal-light),
+                 -0.5px 0.5px 0 var(--teal-light),
+                 0.5px 0.5px 0 var(--teal-light);
+  }
+
+  /* ── PROJECTS ── */
+  #projects {
+    background: var(--cream-dark);
+  }
+
+  .projects-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    margin-bottom: 64px;
+  }
+
+  .coming-soon-block {
+    background: white;
+    border: 1px solid rgba(30,106,138,0.12);
+    padding: 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .coming-soon-block::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--orange), var(--teal-light));
+  }
+  .coming-soon-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 16px;
+  }
+  .coming-soon-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .coming-soon-title span { color: var(--orange); }
+  .coming-soon-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-mid);
+  }
+
+  .project-areas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .project-area {
+    background: white;
+    padding: 32px 24px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .project-area:hover {
+    border-bottom-color: var(--orange);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+  }
+  .project-area-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--teal-dark);
+    line-height: 1;
+    margin-bottom: 8px;
+    transition: color 0.3s;
+    text-shadow: 0 0 0 var(--teal-light), 
+                 -1px -1px 0 var(--teal-light),
+                 1px -1px 0 var(--teal-light),
+                 -1px 1px 0 var(--teal-light),
+                 1px 1px 0 var(--teal-light);
+  }
+  .project-area:hover .project-area-num { color: #EB6730; }
+  .project-area:hover .project-area-title {
+    color: #EB6730;
+  }
+  .project-area-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 0 var(--teal-light), 
+                 -0.5px -0.5px 0 var(--teal-light),
+                 0.5px -0.5px 0 var(--teal-light),
+                 -0.5px 0.5px 0 var(--teal-light),
+                 0.5px 0.5px 0 var(--teal-light);
+  }
+  .project-area-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-light);
+  }
+
+  /* ── BLOG ── */
+  #blog {
+    background: var(--cream);
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .blog-card {
+    background: white;
+    overflow: hidden;
+    border: 1px solid rgba(30,106,138,0.1);
+    position: relative;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .blog-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  }
+  .blog-card:hover::after { transform: scaleX(1); }
+  .blog-card-img {
+    height: 180px;
+    background: var(--cream-dark);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .blog-card-img-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(30,106,138,0.1), rgba(74,184,216,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+  .blog-card-category {
+    position: absolute;
+    top: 16px; left: 16px;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--orange);
+    color: white;
+    padding: 4px 10px;
+  }
+  .blog-card-body {
+    padding: 28px;
+  }
+  .blog-card-date {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    letter-spacing: 0.06em;
+  }
+  .blog-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .blog-card-excerpt {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-mid);
+  }
+
+  .blog-placeholder-note {
+    text-align: center;
+    margin-top: 48px;
+    padding: 28px;
+    border: 1px dashed rgba(30,106,138,0.25);
+    border-radius: 2px;
+  }
+  .blog-placeholder-note p {
+    font-size: 14px;
+    color: var(--text-light);
+    font-style: italic;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--teal-dark);
+    padding: 100px 80px;
+    overflow: hidden;
+  }
+
+  #contact .section-title { color: white; }
+  #contact .section-tag { color: var(--teal-light); }
+  #contact .section-tag::after { background: var(--teal-light); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .contact-icon {
+    width: 48px; height: 48px;
+    background: rgba(240,186,155,0.1);
+    border: 1px solid rgba(240,186,155,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .contact-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .contact-detail span:first-child {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+  }
+  .contact-detail a, .contact-detail span:last-child {
+    font-size: 15px;
+    color: #F0BA9B;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-detail a:hover { color: var(--orange); }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-group label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #F0BA9B;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: #F0BA9B;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(240,186,155,0.4); }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--orange);
+  }
+  .form-group select option { background: var(--teal-dark); color: #F0BA9B; }
+  .form-group textarea { min-height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: #0F3D52;
+    padding: 32px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-left {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-left strong {
+    color: rgba(255,255,255,0.7);
+    font-family: 'Syne', sans-serif;
+  }
+  .footer-right {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-right a {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-right a:hover { color: var(--orange); }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── FINANCING ── */
+  .financing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+    margin-top: 48px;
+  }
+
+  .financing-card {
+    padding: 36px;
+    background: rgba(31, 110, 141, 0.05);
+    border: 1.5px solid rgba(31, 110, 141, 0.15);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .financing-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--orange);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+    transform-origin: bottom;
+  }
+
+  .financing-card:hover {
+    background: rgba(31, 110, 141, 0.1);
+    border-color: rgba(31, 110, 141, 0.25);
+    transform: translateY(-4px);
+  }
+  .financing-card:hover::before { transform: scaleY(1); }
+
+  .financing-card-icon {
+    margin-bottom: 16px;
+    line-height: 0;
+  }
+
+  .financing-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    text-shadow: -0.5px -0.5px 0 #37d3f1,
+                  0.5px -0.5px 0 #37d3f1,
+                 -0.5px  0.5px 0 #37d3f1,
+                  0.5px  0.5px 0 #37d3f1;
+  }
+
+  .financing-card-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-mid);
+    margin-bottom: 20px;
+  }
+
+  .financing-card-link {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .financing-card-link:hover {
+    color: var(--orange);
+  }
+
+
+  /* ── SVG ICON ANIMATIONS ── */
+  .domain-icon svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .domain-card:hover .domain-icon svg {
+    transform: scale(1.3) rotate(12deg);
+  }
+
+  .financing-card-icon svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  }
+  .financing-card:hover .financing-card-icon svg {
+    transform: scale(1.25) rotate(-8deg);
+    filter: brightness(1.25);
+  }
+
+  .blog-card-img-inner svg {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  }
+  .blog-card:hover .blog-card-img-inner svg {
+    transform: scale(1.2) rotate(-10deg);
+    opacity: 0.85;
+  }
+
+  .contact-icon svg {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .contact-item:hover .contact-icon svg {
+    transform: scale(1.25) rotate(8deg);
+  }
+
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 4px;
+    z-index: 101;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--teal-dark);
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(250,246,232,0.98);
+    backdrop-filter: blur(12px);
+    z-index: 98;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--orange); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .hamburger { display: flex; }
+    .nav-links { display: none; }
+    #hero { background: linear-gradient(135deg, rgba(250,246,232,0.97) 0%, rgba(31,110,141,0.35) 100%), url('hero-bg..jpg') center / cover no-repeat; }
+    .hero-left { padding: 100px 32px 60px; }
+    .hero-right { display: none; }
+    .stats-bar { grid-template-columns: 1fr 1fr; padding: 32px 24px; gap: 24px; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; }
+    section { padding: 60px 24px; }
+    .about-grid, .contact-grid, .projects-intro { grid-template-columns: 1fr; gap: 40px; }
+    .domains-grid, .project-areas, .blog-grid, .financing-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px; }
+  }
+
+  @media (max-width: 480px) {
+    #hero { min-height: auto; background: linear-gradient(135deg, rgba(250,246,232,0.98) 0%, rgba(31,110,141,0.4) 100%), url('hero-bg..jpg') center / cover no-repeat; }
+    .hero-left { padding: 80px 20px 50px; }
+    .hero-title { font-size: clamp(32px, 7vw, 48px); }
+    .hero-tagline { font-size: clamp(14px, 2.5vw, 18px); }
+    .hero-desc { font-size: 15px; max-width: 100%; }
+    .hero-ctas { flex-direction: column; gap: 12px; }
+    .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+  }
+
+  .scroll-line {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--orange);
+    z-index: 200;
+    transition: width 0.1s;
+    width: 0%;
+  }
+</style>
+</head>
+<body>
+
+<!-- Scroll progress -->
+<div class="scroll-line" id="scrollLine"></div>
+
+<!-- Circuit background -->
+<svg class="circuit-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <g stroke="#1E6A8A" stroke-width="1" fill="none">
+    <line x1="0" y1="100" x2="200" y2="100"/><circle cx="200" cy="100" r="4" fill="#1E6A8A"/>
+    <line x1="200" y1="100" x2="200" y2="200"/><line x1="200" y1="200" x2="400" y2="200"/>
+    <circle cx="400" cy="200" r="6" fill="none" stroke="#1E6A8A"/>
+    <line x1="400" y1="200" x2="600" y2="200"/><line x1="600" y1="200" x2="600" y2="400"/>
+    <rect x="595" y="195" width="10" height="10" fill="#1E6A8A"/>
+    <line x1="700" y1="0" x2="700" y2="150"/><circle cx="700" cy="150" r="5"/>
+    <line x1="700" y1="150" x2="900" y2="150"/><rect x="895" y="145" width="10" height="10" fill="#1E6A8A"/>
+    <line x1="900" y1="150" x2="1100" y2="150"/><circle cx="1100" cy="150" r="4" fill="#1E6A8A"/>
+    <line x1="1100" y1="150" x2="1100" y2="300"/><line x1="1100" y1="300" x2="1300" y2="300"/>
+    <circle cx="1300" cy="300" r="6" fill="none" stroke="#1E6A8A"/>
+    <line x1="1300" y1="300" x2="1440" y2="300"/>
+    <line x1="50" y1="400" x2="50" y2="600"/><circle cx="50" cy="400" r="4" fill="#1E6A8A"/>
+    <line x1="50" y1="600" x2="250" y2="600"/><rect x="245" y="595" width="10" height="10" fill="#1E6A8A"/>
+    <line x1="250" y1="600" x2="450" y2="600"/><line x1="450" y1="600" x2="450" y2="800"/>
+    <circle cx="450" cy="800" r="5" fill="#1E6A8A"/>
+    <line x1="800" y1="500" x2="1000" y2="500"/><circle cx="800" cy="500" r="4" fill="#1E6A8A"/>
+    <line x1="1000" y1="500" x2="1000" y2="700"/><rect x="995" y="695" width="10" height="10" fill="#1E6A8A"/>
+    <line x1="1000" y1="700" x2="1200" y2="700"/><line x1="1200" y1="700" x2="1440" y2="700"/>
+    <line x1="1350" y1="0" x2="1350" y2="200"/><circle cx="1350" cy="200" r="6" fill="none" stroke="#1E6A8A"/>
+    <line x1="1350" y1="200" x2="1440" y2="200"/>
+    <!-- circuit drops -->
+    <line x1="300" y1="0" x2="300" y2="80"/><rect x="296" y="80" width="8" height="8" fill="#1E6A8A"/>
+    <line x1="500" y1="0" x2="500" y2="60"/><circle cx="500" cy="60" r="4" fill="none" stroke="#1E6A8A"/>
+    <line x1="1000" y1="0" x2="1000" y2="120"/><rect x="996" y="120" width="8" height="8" fill="#1E6A8A"/>
+    <line x1="1200" y1="0" x2="1200" y2="90"/><circle cx="1200" cy="90" r="4" fill="#1E6A8A"/>
+  </g>
+</svg>
+
+<!-- Language toggle -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ro')">RO</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">
+    <img src="FID logo.png" alt="FID Logo">
+    <div class="nav-logo-text">
+      <span data-ro="Fundația pentru" data-en="Foundation for">Fundația pentru</span>
+      <span data-ro="Inovare Digitală" data-en="Digital Innovation">Inovare Digitală</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about" data-ro="Despre noi" data-en="About">Despre noi</a></li>
+    <li><a href="#projects" data-ro="Proiecte" data-en="Projects">Proiecte</a></li>
+    <li><a href="#financing" data-ro="Finanțări" data-en="Funding">Finanțări</a></li>
+    <li><a href="#blog" data-ro="Noutăți" data-en="News">Noutăți</a></li>
+    <li><a href="#contact" data-ro="Contact" data-en="Contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Meniu" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()" data-ro="Despre noi" data-en="About">Despre noi</a>
+  <a href="#projects" onclick="closeMobile()" data-ro="Proiecte" data-en="Projects">Proiecte</a>
+  <a href="#financing" onclick="closeMobile()" data-ro="Finanțări" data-en="Funding">Finanțări</a>
+  <a href="#blog" onclick="closeMobile()" data-ro="Noutăți" data-en="News">Noutăți</a>
+  <a href="#contact" onclick="closeMobile()" data-ro="Contact" data-en="Contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag" data-ro="ONG · București · România" data-en="NGO · Bucharest · Romania">ONG · București · România</div>
+    <h1 class="hero-title">
+      <span data-ro="Fundația pentru" data-en="Foundation for">Fundația pentru</span><br>
+      <span data-ro="Inovare" data-en="Digital">Inovare</span> <span data-ro="Digitală" data-en="Innovation">Digitală</span>
+    </h1>
+    <p class="hero-tagline" data-ro="facilitează un viitor digital echilibrat!" data-en="facilitating a balanced digital future!">facilitează un viitor digital echilibrat!</p>
+    <p class="hero-desc" data-ro="O fundație dedicată promovării inovației digitale, educației și dezvoltării comunitare. Construim punți între tehnologie și oameni pentru o societate mai echilibrată." data-en="A foundation dedicated to promoting digital innovation, education and community development. We build bridges between technology and people for a more balanced society.">O fundație dedicată promovării inovației digitale, educației și dezvoltării comunitare. Construim punți între tehnologie și oameni pentru o societate mai echilibrată.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary" data-ro="Proiectele noastre" data-en="Our projects">Proiectele noastre</a>
+      <a href="#contact" class="btn-secondary" data-ro="Contactează-ne" data-en="Get in touch">Contactează-ne</a>
+      <a href="https://formular230.ro/fundatia-pentru-inovare-digitala" target="_blank" class="btn-230" data-ro="Donează 3,5%" data-en="Donate 3.5%">Donează 3,5%</a>
+    </div>
+    <div class="hero-230-pdf">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      <a href="formular.pdf" download data-ro="Descarcă formularul 230 (PDF)" data-en="Download form 230 (PDF)">Descarcă formularul 230 (PDF)</a>
+    </div>
+    <div class="hero-230-steps">
+      <div class="hero-230-steps-title" data-ro="Cum direcționezi 3,5% din impozit:" data-en="How to redirect 3.5% of your tax:">Cum direcționezi 3,5% din impozit:</div>
+      <div class="hero-230-step">
+        <div class="hero-230-step-text" data-ro="Descarcă &amp; completează formularul 230" data-en="Download &amp; complete form 230">Descarcă &amp; completează formularul 230</div>
+        <div class="hero-230-step-num">1</div>
+      </div>
+      <div class="hero-230-step">
+        <div class="hero-230-step-text" data-ro="Semnează formularul" data-en="Sign the form">Semnează formularul</div>
+        <div class="hero-230-step-num">2</div>
+      </div>
+      <div class="hero-230-step">
+        <div class="hero-230-step-text" data-ro="Trimite la contact@fid.org.ro" data-en="Send to contact@fid.org.ro">Trimite la contact@fid.org.ro</div>
+        <div class="hero-230-step-num">3</div>
+      </div>
+      <div class="hero-230-deadline" data-ro="⏳ Termen limită: 25 mai 2026" data-en="⏳ Deadline: 25 May 2026">⏳ Termen limită: 25 mai 2026</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-circuit-art">
+      <svg viewBox="0 0 400 400">
+        <g stroke="#1E6A8A" stroke-width="1.5" fill="none" opacity="1">
+          <circle cx="200" cy="200" r="150"/>
+          <circle cx="200" cy="200" r="120"/>
+          <circle cx="200" cy="200" r="90"/>
+          <line x1="50" y1="200" x2="350" y2="200"/>
+          <line x1="200" y1="50" x2="200" y2="350"/>
+          <line x1="94" y1="94" x2="306" y2="306"/>
+          <line x1="306" y1="94" x2="94" y2="306"/>
+          <circle cx="200" cy="50" r="5" fill="#1E6A8A"/>
+          <circle cx="200" cy="350" r="5" fill="#1E6A8A"/>
+          <circle cx="50" cy="200" r="5" fill="#1E6A8A"/>
+          <circle cx="350" cy="200" r="5" fill="#1E6A8A"/>
+          <rect x="90" y="90" width="10" height="10" fill="#1E6A8A"/>
+          <rect x="300" y="90" width="10" height="10" fill="#1E6A8A"/>
+          <rect x="90" y="300" width="10" height="10" fill="#1E6A8A"/>
+          <rect x="300" y="300" width="10" height="10" fill="#1E6A8A"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-logo-big">
+      <img src="FID logo.png" alt="FID">
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">2012</span>
+    <span class="stat-label" data-ro="An fondare" data-en="Founded">An fondare</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">12+</span>
+    <span class="stat-label" data-ro="Ani de experiență" data-en="Years of experience">Ani de experiență</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">3</span>
+    <span class="stat-label" data-ro="Arii de inovare" data-en="Innovation areas">Arii de inovare</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">RO</span>
+    <span class="stat-label" data-ro="București · Europa de Est" data-en="Bucharest · Eastern Europe">București · Europa de Est</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="fade-up">
+  <div class="section-header">
+    <div class="section-tag" data-ro="Cine suntem" data-en="Who we are">Cine suntem</div>
+    <h2 class="section-title">
+      <span data-ro="Despre" data-en="About">Despre</span> <span data-ro="fundație" data-en="the foundation">fundație</span>
+    </h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p data-ro="Fundația pentru Inovare Digitală (FID) are rădăcini în 2012, când a fost înființată cu un scop umanist larg. După peste un deceniu de activitate și experiență acumulată, în 2023 fundația s-a rebranduit, orientându-și energia spre intersecția dintre inovare digitală, societate și cetățenie activă." data-en="The Foundation for Digital Innovation (FID) has its roots in 2012, when it was established with a broad humanist purpose. After more than a decade of activity and accumulated experience, in 2023 the foundation rebranded, directing its energy toward the intersection of digital innovation, society and active citizenship.">Fundația pentru Inovare Digitală (FID) are rădăcini în 2012, când a fost înființată cu un scop umanist larg. După peste un deceniu de activitate și experiență acumulată, în 2023 fundația s-a rebranduit, orientându-și energia spre intersecția dintre inovare digitală, societate și cetățenie activă.</p>
+      <p data-ro="Sub umbrela inovării digitale, FID dezvoltă proiecte în trei direcții strategice: îmbătrânire activă susținută de tehnologie, inteligență artificială agentică aplicată social și educație civico-juridică prin instrumente digitale." data-en="Under the umbrella of digital innovation, FID develops projects in three strategic directions: technology-supported active ageing, socially applied agentic AI, and civic-legal education through digital tools.">Sub umbrela inovării digitale, FID dezvoltă proiecte în trei direcții strategice: îmbătrânire activă susținută de tehnologie, inteligență artificială agentică aplicată social și educație civico-juridică prin instrumente digitale.</p>
+      <p data-ro="Abordarea noastră este non-comercială, finanțată prin granturi naționale și europene, parteneriate cu ONG-uri și programe educaționale instituționale. Credem că tehnologia echilibrată poate transforma calitatea vieții pentru orice generație." data-en="Our approach is non-commercial, funded through national and European grants, NGO partnerships and institutional educational programs. We believe that balanced technology can transform quality of life for every generation.">Abordarea noastră este non-comercială, finanțată prin granturi naționale și europene, parteneriate cu ONG-uri și programe educaționale instituționale. Credem că tehnologia echilibrată poate transforma calitatea vieții pentru orice generație.</p>
+    </div>
+    <div class="domains-grid">
+      <div class="domain-card"><span class="domain-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><div class="domain-name" data-ro="Cetățenie Activă" data-en="Active Citizenship">Cetățenie Activă</div></div>
+      <div class="domain-card"><span class="domain-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21H17"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></span><div class="domain-name" data-ro="Drepturi Civice" data-en="Civic Rights">Drepturi Civice</div></div>
+      <div class="domain-card"><span class="domain-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M9 2v2M9 20v2M2 15h2M20 15h2M2 9h2M20 9h2"/></svg></span><div class="domain-name" data-ro="Agentic AI" data-en="Agentic AI">Agentic AI</div></div>
+      <div class="domain-card"><span class="domain-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span><div class="domain-name" data-ro="Educație Digitală" data-en="Digital Education">Educație Digitală</div></div>
+      <div class="domain-card"><span class="domain-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg></span><div class="domain-name" data-ro="Cercetare Aplicată" data-en="Applied Research">Cercetare Aplicată</div></div>
+      <div class="domain-card"><span class="domain-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><div class="domain-name" data-ro="Îmbătrânire Activă" data-en="Active Ageing">Îmbătrânire Activă</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="fade-up">
+  <div class="section-header">
+    <div class="section-tag" data-ro="Sub umbrela inovării digitale" data-en="Under the digital innovation umbrella">Sub umbrela inovării digitale</div>
+    <h2 class="section-title" data-ro="Proiecte <span>în dezvoltare</span>" data-en="Projects <span>in development</span>">Proiecte <span>în dezvoltare</span></h2>
+  </div>
+  <div class="projects-intro">
+    <div>
+      <p style="font-size:16px;line-height:1.8;color:var(--text-mid);margin-bottom:24px;" data-ro="FID reunește sub umbrela inovării digitale trei direcții strategice complementare: tehnologie pentru îmbătrânire demnă și activă, AI agentic aplicat în context civic și social, și educație civico-juridică prin instrumente digitale moderne." data-en="FID brings together under the digital innovation umbrella three complementary strategic directions: technology for dignified and active ageing, agentic AI applied in civic and social contexts, and civic-legal education through modern digital tools.">FID reunește sub umbrela inovării digitale trei direcții strategice complementare: tehnologie pentru îmbătrânire demnă și activă, AI agentic aplicat în context civic și social, și educație civico-juridică prin instrumente digitale moderne.</p>
+      <p style="font-size:16px;line-height:1.8;color:var(--text-mid);" data-ro="Toate proiectele sunt în faza de dezvoltare și vor fi finanțate prin granturi naționale și europene. Suntem deschiși pentru colaborări, parteneriate și co-finanțatori." data-en="All projects are in the development phase and will be funded through national and European grants. We are open to collaborations, partnerships and co-funders.">Toate proiectele sunt în faza de dezvoltare și vor fi finanțate prin granturi naționale și europene. Suntem deschiși pentru colaborări, parteneriate și co-finanțatori.</p>
+    </div>
+    <div class="coming-soon-block">
+      <div class="coming-soon-label" data-ro="Lansări anticipate 2025–2026" data-en="Anticipated launches 2025–2026">Lansări anticipate 2025–2026</div>
+      <div class="coming-soon-title" data-ro="3 proiecte <span>în pregătire</span>" data-en="3 projects <span>in preparation</span>">3 proiecte <span>în pregătire</span></div>
+      <p class="coming-soon-desc" data-ro="Urmăriți pagina noastră pentru anunțuri despre lansări. Vă vom ține la curent cu toate inițiativele FID." data-en="Follow our page for launch announcements. We will keep you updated on all FID initiatives.">Urmăriți pagina noastră pentru anunțuri despre lansări. Vă vom ține la curent cu toate inițiativele FID.</p>
+    </div>
+  </div>
+
+  <!-- Project 1: Civic/Juridic -->
+  <div>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:40px;">
+      <div style="width:48px;height:3px;background:var(--teal-light);"></div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text-dark);min-width:0;flex:1;display:flex;align-items:center;gap:10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21H17"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span data-ro="Educație Civico-Juridică Digitală" data-en="Digital Civic-Legal Education">Educație Civico-Juridică Digitală</span></h3>
+    </div>
+    <div class="project-areas" style="grid-template-columns: repeat(3,1fr);">
+      <div class="project-area">
+        <div class="project-area-num">01</div>
+        <div class="project-area-title" data-ro="Școala de Drepturi / Constituție Vie" data-en="School of Rights / Living Constitution">Școala de Drepturi / Constituție Vie</div>
+        <div class="project-area-desc" data-ro="Program educațional modular privind drepturile constituționale: cursuri, webinarii, ebook-uri și prezentări interactive pentru licee și publicul larg." data-en="Modular educational program on constitutional rights: courses, webinars, ebooks and interactive presentations for high schools and the general public.">Program educațional modular privind drepturile constituționale: cursuri, webinarii, ebook-uri și prezentări interactive pentru licee și publicul larg.</div>
+      </div>
+      <div class="project-area">
+        <div class="project-area-num">02</div>
+        <div class="project-area-title" data-ro="Laborator de Cetățenie Vie" data-en="Living Citizenship Lab">Laborator de Cetățenie Vie</div>
+        <div class="project-area-desc" data-ro="Platformă de cercetare aplicată: jurisprudență, obstacole procedurale, ghiduri pentru cetățeni și instrumente pentru exercitarea drepturilor (incl. Legea 544/2001)." data-en="Applied research platform: jurisprudence, procedural obstacles, citizen guides and tools for exercising rights (incl. Law 544/2001).">Platformă de cercetare aplicată: jurisprudență, obstacole procedurale, ghiduri pentru cetățeni și instrumente pentru exercitarea drepturilor (incl. Legea 544/2001).</div>
+      </div>
+      <div class="project-area">
+        <div class="project-area-num">03</div>
+        <div class="project-area-title" data-ro="Observator de Jurisprudență" data-en="Jurisprudence Observatory">Observator de Jurisprudență</div>
+        <div class="project-area-desc" data-ro="Cercetare jurisprudențială națională și europeană: rapoarte anuale, barometru al aplicării drepturilor și monitorizare civică." data-en="National and European jurisprudential research: annual reports, rights application barometer and civic monitoring.">Cercetare jurisprudențială națională și europeană: rapoarte anuale, barometru al aplicării drepturilor și monitorizare civică.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 2: Agentic AI -->
+  <div style="margin-bottom: 60px; margin-top: 40px;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:40px;">
+      <div style="width:48px;height:3px;background:var(--teal-dark);"></div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text-dark);min-width:0;flex:1;display:flex;align-items:center;gap:10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M9 2v2M9 20v2M2 15h2M20 15h2M2 9h2M20 9h2"/></svg><span data-ro="Agentic AI – Aplicații Sociale" data-en="Agentic AI – Social Applications">Agentic AI – Aplicații Sociale</span></h3>
+    </div>
+    <div class="project-areas" style="grid-template-columns: repeat(3,1fr);">
+      <div class="project-area">
+        <div class="project-area-num">04</div>
+        <div class="project-area-title" data-ro="Agent AI pentru cetățeni" data-en="AI agent for citizens">Agent AI pentru cetățeni</div>
+        <div class="project-area-desc" data-ro="Asistent AI agentic care ghidează cetățenii în exercitarea drepturilor, accesul la servicii publice și navigarea procedurilor administrative." data-en="Agentic AI assistant that guides citizens in exercising their rights, accessing public services and navigating administrative procedures.">Asistent AI agentic care ghidează cetățenii în exercitarea drepturilor, accesul la servicii publice și navigarea procedurilor administrative.</div>
+      </div>
+      <div class="project-area">
+        <div class="project-area-num">05</div>
+        <div class="project-area-title" data-ro="AI & Îngrijire la domiciliu" data-en="AI & Home care">AI & Îngrijire la domiciliu</div>
+        <div class="project-area-desc" data-ro="Soluții AI agentice pentru monitorizarea bunăstării persoanelor vârstnice și coordonarea îngrijitorilor." data-en="Agentic AI solutions for monitoring elderly wellbeing and coordinating caregivers.">Soluții AI agentice pentru monitorizarea bunăstării persoanelor vârstnice și coordonarea îngrijitorilor.</div>
+      </div>
+      <div class="project-area">
+        <div class="project-area-num">06</div>
+        <div class="project-area-title" data-ro="Cercetare AI etică" data-en="Ethical AI research">Cercetare AI etică</div>
+        <div class="project-area-desc" data-ro="Studii și ghiduri privind utilizarea responsabilă a AI în context civic, educațional și medical." data-en="Studies and guides on the responsible use of AI in civic, educational and medical contexts.">Studii și ghiduri privind utilizarea responsabilă a AI în context civic, educațional și medical.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 3: Active Ageing -->
+  <div style="margin-bottom: 48px;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:40px;">
+      <div style="width:48px;height:3px;background:var(--orange);"></div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text-dark);min-width:0;flex:1;display:flex;align-items:center;gap:10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span data-ro="Îmbătrânire Activă & Tehnologie" data-en="Active Ageing & Technology">Îmbătrânire Activă & Tehnologie</span></h3>
+    </div>
+    <div class="project-areas" style="grid-template-columns: repeat(3,1fr);">
+      <div class="project-area">
+        <div class="project-area-num">07</div>
+        <div class="project-area-title" data-ro="Platformă digitală pentru seniori" data-en="Digital platform for seniors">Platformă digitală pentru seniori</div>
+        <div class="project-area-desc" data-ro="Instrumente digitale adaptate pentru persoane vârstnice: acces la servicii, comunicare și autonomie zilnică." data-en="Digital tools adapted for elderly people: access to services, communication and daily autonomy.">Instrumente digitale adaptate pentru persoane vârstnice: acces la servicii, comunicare și autonomie zilnică.</div>
+      </div>
+      <div class="project-area">
+        <div class="project-area-num">08</div>
+        <div class="project-area-title" data-ro="Programe de formare digitală" data-en="Digital training programs">Programe de formare digitală</div>
+        <div class="project-area-desc" data-ro="Training practic pentru seniori: utilizarea telefonului, internetului, serviciilor publice online și telemedicinei." data-en="Practical training for seniors: using phones, internet, online public services and telemedicine.">Training practic pentru seniori: utilizarea telefonului, internetului, serviciilor publice online și telemedicinei.</div>
+      </div>
+      <div class="project-area">
+        <div class="project-area-num">09</div>
+        <div class="project-area-title" data-ro="Rețea intergenerațională" data-en="Intergenerational network">Rețea intergenerațională</div>
+        <div class="project-area-desc" data-ro="Conectarea tinerilor voluntari cu seniorii pentru transfer de competențe digitale și companie activă." data-en="Connecting young volunteers with seniors for digital skills transfer and active companionship.">Conectarea tinerilor voluntari cu seniorii pentru transfer de competențe digitale și companie activă.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCING & PARTNERSHIPS -->
+<section id="financing" class="fade-up">
+  <div class="section-header">
+    <div class="section-tag" data-ro="Sprijin & Colaborare" data-en="Support & Collaboration">Sprijin & Colaborare</div>
+    <h2 class="section-title" data-ro="Finanțări & <span>Parteneriate</span>" data-en="Funding & <span>Partnerships</span>">Finanțări & <span>Parteneriate</span></h2>
+  </div>
+  <div class="financing-grid">
+    <div class="financing-card">
+      <div class="financing-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg></div>
+      <div class="financing-card-title" data-ro="Donații Persoane Fizice" data-en="Individual Donations">Donații Persoane Fizice</div>
+      <div class="financing-card-text" data-ro="Poți dedica 3,5% din impozitul pe venit către FID prin Formularul 230. Fiecare contribuție ajută la finanțarea proiectelor noastre de inovație digitală și educație civică." data-en="You can dedicate 3.5% of your income tax to FID through Form 230. Every contribution helps fund our digital innovation and civic education projects.">Poți dedica 3,5% din impozitul pe venit către FID prin Formularul 230. Fiecare contribuție ajută la finanțarea proiectelor noastre de inovație digitală și educație civică.</div>
+      <a href="#hero" class="financing-card-link" data-ro="Află mai mult →" data-en="Learn more →">Află mai mult →</a>
+    </div>
+    <div class="financing-card">
+      <div class="financing-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div>
+      <div class="financing-card-title" data-ro="Granturi Europene" data-en="European Grants">Granturi Europene</div>
+      <div class="financing-card-text" data-ro="FID participă în programe de finanțare europene (Horizon Europe, Erasmus+, etc.) pentru susținerea inovației digitale și cercetării aplicative în domenii cheie." data-en="FID participates in European funding programs (Horizon Europe, Erasmus+, etc.) to support digital innovation and applied research in key domains.">FID participă în programe de finanțare europene (Horizon Europe, Erasmus+, etc.) pentru susținerea inovației digitale și cercetării aplicative în domenii cheie.</div>
+      <a href="#contact" class="financing-card-link" data-ro="Contactează-ne →" data-en="Get in touch →">Contactează-ne →</a>
+    </div>
+    <div class="financing-card">
+      <div class="financing-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+      <div class="financing-card-title" data-ro="Parteneriate Corporative" data-en="Corporate Partnerships">Parteneriate Corporative</div>
+      <div class="financing-card-text" data-ro="Companiile interesate pot colabora cu FID prin sponsorizări, co-finanțări sau parteneriate în implementarea proiectelor. Construim împreună ecosisteme digitale responsabile." data-en="Companies interested in collaborating with FID can do so through sponsorships, co-funding or partnerships in project implementation. Together we build responsible digital ecosystems.">Companiile interesate pot colabora cu FID prin sponsorizări, co-finanțări sau parteneriate în implementarea proiectelor. Construim împreună ecosisteme digitale responsabile.</div>
+      <a href="#contact" class="financing-card-link" data-ro="Propune o colaborare →" data-en="Propose collaboration →">Propune o colaborare →</a>
+    </div>
+    <div class="financing-card">
+      <div class="financing-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg></div>
+      <div class="financing-card-title" data-ro="Apeluri pentru Colaboratori" data-en="Calls for Collaborators">Apeluri pentru Colaboratori</div>
+      <div class="financing-card-text" data-ro="Suntem deschiși pentru ONG-uri, institute de cercetare, universități și alte organizații care doresc să se alăture proiectelor FID. Colaborări echitabile și win-win." data-en="We are open to NGOs, research institutes, universities and other organizations that want to join FID projects. Fair and win-win collaborations.">Suntem deschiși pentru ONG-uri, institute de cercetare, universități și alte organizații care doresc să se alăture proiectelor FID. Colaborări echitabile și win-win.</div>
+      <a href="#contact" class="financing-card-link" data-ro="Colaborează cu noi →" data-en="Collaborate with us →">Colaborează cu noi →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog" class="fade-up">
+  <div class="section-header">
+    <div class="section-tag" data-ro="Ultimele noutăți" data-en="Latest news">Ultimele noutăți</div>
+    <h2 class="section-title" data-ro="Blog & <span>Noutăți</span>" data-en="Blog & <span>News</span>">Blog & <span>Noutăți</span></h2>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-img">
+        <div class="blog-card-img-inner"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21H17"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></div>
+        <div class="blog-card-category" data-ro="Drepturi Civice" data-en="Civic Rights">Drepturi Civice</div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-date" data-ro="În pregătire" data-en="In preparation">În pregătire</div>
+        <div class="blog-card-title" data-ro="Legea 544 și cetățeanul digital: un ghid practic" data-en="Law 544 and the digital citizen: a practical guide">Legea 544 și cetățeanul digital: un ghid practic</div>
+        <div class="blog-card-excerpt" data-ro="Accesul la informații publice este un drept, nu un privilegiu. Cum îl poți exercita efectiv în era digitală — și ce obstacole există în practică." data-en="Access to public information is a right, not a privilege. How can you exercise it effectively in the digital age — and what obstacles exist in practice.">Accesul la informații publice este un drept, nu un privilegiu. Cum îl poți exercita efectiv în era digitală — și ce obstacole există în practică.</div>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-img">
+        <div class="blog-card-img-inner"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M9 2v2M9 20v2M2 15h2M20 15h2M2 9h2M20 9h2"/></svg></div>
+        <div class="blog-card-category" data-ro="Agentic AI" data-en="Agentic AI">Agentic AI</div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-date" data-ro="În pregătire" data-en="In preparation">În pregătire</div>
+        <div class="blog-card-title" data-ro="Agentic AI: de la chatbot la asistent civic activ" data-en="Agentic AI: from chatbot to active civic assistant">Agentic AI: de la chatbot la asistent civic activ</div>
+        <div class="blog-card-excerpt" data-ro="AI-ul agentic nu răspunde doar la întrebări — acționează. Ce înseamnă asta pentru accesul cetățenilor la drepturi și servicii publice?" data-en="Agentic AI doesn't just answer questions — it acts. What does this mean for citizens' access to rights and public services?">AI-ul agentic nu răspunde doar la întrebări — acționează. Ce înseamnă asta pentru accesul cetățenilor la drepturi și servicii publice?</div>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-img">
+        <div class="blog-card-img-inner"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="blog-card-category" data-ro="Îmbătrânire Activă" data-en="Active Ageing">Îmbătrânire Activă</div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-date" data-ro="În pregătire" data-en="In preparation">În pregătire</div>
+        <div class="blog-card-title" data-ro="De ce seniorii au nevoie de mai mult decât un smartphone" data-en="Why seniors need more than just a smartphone">De ce seniorii au nevoie de mai mult decât un smartphone</div>
+        <div class="blog-card-excerpt" data-ro="Îmbătrânirea activă nu înseamnă doar acces la tehnologie, ci ecosisteme digitale gândite pentru autonomie, demnitate și conexiune socială reală." data-en="Active ageing is not just about access to technology, but digital ecosystems designed for autonomy, dignity and real social connection.">Îmbătrânirea activă nu înseamnă doar acces la tehnologie, ci ecosisteme digitale gândite pentru autonomie, demnitate și conexiune socială reală.</div>
+      </div>
+    </div>
+  </div>
+  <div class="blog-placeholder-note">
+    <p data-ro="Această secțiune va fi actualizată cu articole, știri și anunțuri despre activitatea FID." data-en="This section will be updated with articles, news and announcements about FID's activity.">Această secțiune va fi actualizată cu articole, știri și anunțuri despre activitatea FID.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="fade-up">
+  <div class="section-header">
+    <div class="section-tag" data-ro="Hai să vorbim" data-en="Let's talk">Hai să vorbim</div>
+    <h2 class="section-title" style="color:#F0BA9B;text-shadow:-0.5px -0.5px 0 #37d3f1,0.5px -0.5px 0 #37d3f1,-0.5px 0.5px 0 #37d3f1,0.5px 0.5px 0 #37d3f1;" data-ro="Contactează-ne" data-en="Contact us">Contactează-ne</h2>
+  </div>
+  <div class="contact-grid">
+    <div>
+      <p style="font-size:16px;line-height:1.8;color:#F0BA9B;margin-bottom:8px;" data-ro="Suntem deschiși pentru colaborări, parteneriate, finanțări și voluntariat în toate cele trei direcții strategice: educație civico-juridică, AI agentic și îmbătrânire activă." data-en="We are open to collaborations, partnerships, funding and volunteering in all three strategic directions: civic-legal education, agentic AI and active ageing.">Suntem deschiși pentru colaborări, parteneriate, finanțări și voluntariat în toate cele trei direcții strategice: educație civico-juridică, AI agentic și îmbătrânire activă.</p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F0BA9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+          <div class="contact-detail">
+            <span data-ro="Email" data-en="Email">Email</span>
+            <a href="mailto:contact@fid.org.ro">contact@fid.org.ro</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F0BA9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l1.67-1.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="contact-detail">
+            <span data-ro="Telefon" data-en="Phone">Telefon</span>
+            <a href="tel:+40768435959">+40 768 435 959</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F0BA9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="contact-detail">
+            <span data-ro="Adresă" data-en="Address">Adresă</span>
+            <span data-ro="Sector 3, București" data-en="Sector 3, Bucharest">Sector 3, București</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F0BA9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="contact-detail">
+            <span>Web</span>
+            <a href="https://www.fid.org.ro" target="_blank">www.fid.org.ro</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F0BA9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+          <div class="contact-detail">
+            <span>Facebook</span>
+            <a href="https://www.facebook.com/FIDromania" target="_blank">facebook.com/FIDromania</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact">
+      <input type="hidden" name="bot-field" style="display:none;">
+      <div class="form-row">
+        <div class="form-group">
+          <label data-ro="Nume" data-en="Name">Nume</label>
+          <input type="text" name="nume" placeholder="Ion Ionescu" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="email@exemplu.ro" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-ro="Subiect" data-en="Subject">Subiect</label>
+        <select name="subiect">
+          <option value="" data-ro="Selectați aria de interes..." data-en="Select area of interest...">Selectați aria de interes...</option>
+          <option data-ro="Îmbătrânire Activă & Tehnologie" data-en="Active Ageing & Technology">Îmbătrânire Activă & Tehnologie</option>
+          <option data-ro="Agentic AI – Aplicații Sociale" data-en="Agentic AI – Social Applications">Agentic AI – Aplicații Sociale</option>
+          <option data-ro="Educație Civico-Juridică" data-en="Civic-Legal Education">Educație Civico-Juridică</option>
+          <option data-ro="Parteneriat / Co-finanțare" data-en="Partnership / Co-funding">Parteneriat / Co-finanțare</option>
+          <option data-ro="Voluntariat" data-en="Volunteering">Voluntariat</option>
+          <option data-ro="Altele" data-en="Other">Altele</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-ro="Mesaj" data-en="Message">Mesaj</label>
+        <textarea name="mesaj" placeholder="Descrieți pe scurt scopul contactului..." required></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="align-self:flex-start;" data-ro="Trimite mesaj →" data-en="Send message →">Trimite mesaj →</button>
+      <p style="font-size:11px;line-height:1.6;color:rgba(240,186,155,0.55);margin-top:10px;"
+         data-ro='Prin apăsarea butonului Trimite Mesaj, declari că ai peste 16 ani, că ai citit și ești de acord cu <a href="politica-confidentialitate.html" style="color:rgba(240,186,155,0.8);text-decoration:underline;text-underline-offset:2px;">Politica de Confidențialitate</a>.'
+         data-en='By clicking Send Message, you declare that you are over 16 years old and have read and agreed to the <a href="politica-confidentialitate.html" style="color:rgba(240,186,155,0.8);text-decoration:underline;text-underline-offset:2px;">Privacy Policy</a>.'>Prin apăsarea butonului Trimite Mesaj, declari că ai peste 16 ani, că ai citit și ești de acord cu <a href="politica-confidentialitate.html" style="color:rgba(240,186,155,0.8);text-decoration:underline;text-underline-offset:2px;">Politica de Confidențialitate</a>.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <strong>FID – Fundația pentru Inovare Digitală</strong><br>
+    <span data-ro="© 2023–2026 · Toate drepturile rezervate · București, România" data-en="© 2023–2026 · All rights reserved · Bucharest, Romania">© 2023–2026 · Toate drepturile rezervate · București, România</span>
+  </div>
+  <div class="footer-right">
+    <a href="#about" data-ro="Despre noi" data-en="About">Despre noi</a>
+    <a href="#projects" data-ro="Proiecte" data-en="Projects">Proiecte</a>
+    <a href="#blog" data-ro="Noutăți" data-en="News">Noutăți</a>
+    <a href="#contact" data-ro="Contact" data-en="Contact">Contact</a>
+    <a href="https://www.facebook.com/FIDromania" target="_blank" style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+    <a href="politica-confidentialitate.html" data-ro="Politică de Confidențialitate" data-en="Privacy Policy">Politică de Confidențialitate</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    const pct = (window.scrollY / total) * 100;
+    document.getElementById('scrollLine').style.width = pct + '%';
+
+    // Nav shadow
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Language switch
+  let currentLang = 'ro';
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-ro]').forEach(el => {
+      const val = el.getAttribute('data-' + lang);
+      if (val) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = val;
+        } else if (el.tagName === 'OPTION') {
+          el.textContent = val;
+        } else {
+          el.innerHTML = val;
+        }
+      }
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+    });
+  }
+
+  // Hamburger menu
+  function toggleMobile() {
+    const btn = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobile() {
+    document.getElementById('hamburgerBtn').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Contact form
+  document.querySelector('.contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const btn = form.querySelector('.btn-primary');
+    const formData = new FormData(form);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    })
+    .then(() => {
+      const successMsg = currentLang === 'ro'
+        ? '✓ Mesajul a fost trimis! Vă vom contacta în curând.'
+        : '✓ Message sent! We will contact you soon.';
+      btn.textContent = successMsg;
+      btn.style.background = 'var(--teal-dark)';
+      btn.disabled = true;
+      form.reset();
+    })
+    .catch(() => {
+      const errMsg = currentLang === 'ro'
+        ? 'Eroare la trimitere. Încercați din nou.'
+        : 'Send error. Please try again.';
+      alert(errMsg);
+    });
+  });
+</script>
+</body>
+</html>
