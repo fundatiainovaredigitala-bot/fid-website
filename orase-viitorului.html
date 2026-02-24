@@ -16,7 +16,7 @@
   .lang-btn{font-family:'Syne',sans-serif;font-size:7px;font-weight:700;letter-spacing:0.08em;padding:2px 5px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--teal-dark);opacity:0.45;cursor:pointer;transition:all 0.2s;text-shadow:none;}
   .lang-btn.active{color:#EB6730;opacity:1;border-bottom:2px solid #EB6730;text-shadow:-0.5px -0.5px 0 var(--teal-light),0.5px -0.5px 0 var(--teal-light),-0.5px 0.5px 0 var(--teal-light),0.5px 0.5px 0 var(--teal-light);}
   .lang-btn:hover{opacity:1;color:#EB6730;border-bottom:2px solid #EB6730;}
-  nav{position:fixed;top:0;left:0;right:0;z-index:99;padding:20px 80px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,240,232,0.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(30,106,138,0.12);transition:box-shadow 0.3s;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:99;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,240,232,0.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(30,106,138,0.12);transition:box-shadow 0.3s;}
   nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07);}
   .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
   .nav-logo img{height:36px;width:auto;}
@@ -29,11 +29,12 @@
   .nav-links a:hover{color:var(--orange);}
   .nav-links a:hover::after{width:100%;}
   .article-hero{padding:120px 80px 0;max-width:860px;margin:0 auto;}
-  .back-link{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;transition:color 0.2s;margin-bottom:32px;}
+  .article-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;transition:color 0.2s;text-shadow:0 0 0 var(--teal-light),-0.5px -0.5px 0 var(--teal-light),0.5px -0.5px 0 var(--teal-light),-0.5px 0.5px 0 var(--teal-light),0.5px 0.5px 0 var(--teal-light);}
   .back-link:hover{color:var(--orange);}
   .back-link svg{transition:transform 0.2s;}
   .back-link:hover svg{transform:translateX(-4px);}
-  .article-category{display:inline-block;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;background:var(--orange);color:white;padding:4px 12px;margin-bottom:20px;}
+  .article-category{display:inline-block;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;background:var(--orange);color:white;padding:4px 12px;}
   .article-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.15;color:var(--text-dark);margin-bottom:16px;}
   .article-title span{color:var(--orange);}
   .article-meta{font-size:13px;color:var(--text-light);margin-bottom:40px;letter-spacing:0.06em;}
@@ -48,8 +49,10 @@
   .project-link-block p{font-size:14px;color:var(--text-mid);margin:0;line-height:1.6;}
   .article-cta{background:var(--teal-dark);padding:40px;margin:48px 0 0;text-align:center;}
   .article-cta p{color:rgba(255,255,255,0.8);font-size:15px;margin-bottom:20px;line-height:1.6;}
-  .article-cta a{display:inline-block;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:background 0.2s;}
-  .article-cta a:hover{background:#d45a25;}
+  .article-cta a{display:inline-block;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:16px 36px;text-decoration:none;transition:all 0.25s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+  .article-cta a:hover{background:var(--teal-light);color:var(--teal-dark);transform:translateY(-2px);}
+  .btn-fid-secondary{display:inline-block;background:transparent;color:var(--teal-dark);border:2px solid var(--teal-dark);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:15px 36px;text-decoration:none;transition:all 0.25s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+  .btn-fid-secondary:hover{background:var(--teal-dark);color:white;transform:translateY(-2px);}
   footer{background:#0F3D52;padding:32px 80px;display:flex;align-items:center;justify-content:space-between;}
   .footer-left{font-size:13px;color:rgba(255,255,255,0.4);}
   .footer-left strong{color:rgba(255,255,255,0.7);}
@@ -99,11 +102,13 @@
 </div>
 
 <div class="article-hero">
-  <a class="back-link" href="blog.html">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    <span data-ro="Înapoi la blog" data-en="Back to blog">Înapoi la blog</span>
-  </a>
-  <div class="article-category" data-ro="Tehnologie Urbană" data-en="Urban Technology">Tehnologie Urbană</div>
+  <div class="article-header-top">
+    <div class="article-category" data-ro="Tehnologie Urbană" data-en="Urban Technology">Tehnologie Urbană</div>
+    <a class="back-link" href="blog.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-ro="Înapoi la blog" data-en="Back to blog">Înapoi la blog</span>
+    </a>
+  </div>
   <h1 class="article-title" data-ro="Viitorul este aici: <span>orașe inteligente și inovare digitală</span>" data-en="The future is here: <span>smart cities and digital innovation</span>">Viitorul este aici: <span>orașe inteligente și inovare digitală</span></h1>
   <div class="article-meta" data-ro="23 februarie 2026 · FID – Fundația pentru Inovare Digitală" data-en="February 23, 2026 · FID – Foundation for Digital Innovation">23 februarie 2026 · FID – Fundația pentru Inovare Digitală</div>
 </div>
@@ -146,7 +151,7 @@
     <a href="https://www.facebook.com/FIDromania/posts/pfbid0jfssCUzqyfzfTGoyJYtpVJgyYz3mkmKWyjoPUn1DugjDvcXtTLEEAx95csq7Lj2kl" target="_blank" rel="noopener" data-ro="Comentează pe Facebook →" data-en="Comment on Facebook →">Comentează pe Facebook →</a>
   </div>
   <div style="text-align:center;margin-top:32px;">
-    <a href="index.html#projects" style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;" data-ro="← Vezi proiectele FID" data-en="← See FID projects">← Vezi proiectele FID</a>
+    <a href="index.html#projects" class="btn-fid-secondary" data-ro="← Vezi proiectele FID" data-en="← See FID projects">← Vezi proiectele FID</a>
   </div>
 </div>
 

@@ -31,7 +31,7 @@
   .lang-btn:hover { opacity: 1; color: #EB6730; border-bottom: 2px solid #EB6730; }
 
   /* NAV */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 99; padding: 20px 80px; display: flex; align-items: center; justify-content: space-between; background: rgba(245,240,232,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(30,106,138,0.12); transition: box-shadow 0.3s; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 99; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(245,240,232,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(30,106,138,0.12); transition: box-shadow 0.3s; }
   nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.07); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .nav-logo img { height: 36px; width: auto; }
@@ -46,11 +46,12 @@
 
   /* PAGE HEADER */
   .page-header { padding: 140px 80px 60px; }
-  .back-link { display: inline-flex; align-items: center; gap: 8px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); text-decoration: none; transition: color 0.2s; margin-bottom: 32px; }
+  .page-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-dark); text-decoration: none; transition: color 0.2s; text-shadow: 0 0 0 var(--teal-light), -0.5px -0.5px 0 var(--teal-light), 0.5px -0.5px 0 var(--teal-light), -0.5px 0.5px 0 var(--teal-light), 0.5px 0.5px 0 var(--teal-light); }
   .back-link:hover { color: var(--orange); }
   .back-link svg { transition: transform 0.2s; }
   .back-link:hover svg { transform: translateX(-4px); }
-  .section-tag { display: inline-block; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); background: rgba(235,103,48,0.08); padding: 6px 14px; margin-bottom: 16px; }
+  .section-tag { display: inline-block; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); background: rgba(235,103,48,0.08); padding: 6px 14px; }
   .section-title { font-family: 'Syne', sans-serif; font-size: clamp(28px, 4vw, 42px); font-weight: 800; line-height: 1.15; color: var(--text-dark); }
   .section-title span { color: var(--orange); }
 
@@ -144,11 +145,13 @@
 </div>
 
 <div class="page-header">
-  <a class="back-link" href="index.html">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    <span data-ro="Înapoi la site" data-en="Back to site">Înapoi la site</span>
-  </a>
-  <div class="section-tag" data-ro="Toate articolele" data-en="All articles">Toate articolele</div>
+  <div class="page-header-top">
+    <div class="section-tag" data-ro="Toate articolele" data-en="All articles">Toate articolele</div>
+    <a class="back-link" href="index.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-ro="Înapoi la site" data-en="Back to site">Înapoi la site</span>
+    </a>
+  </div>
   <h1 class="section-title" data-ro="Blog & <span>Noutăți</span>" data-en="Blog & <span>News</span>">Blog & <span>Noutăți</span></h1>
 </div>
 
